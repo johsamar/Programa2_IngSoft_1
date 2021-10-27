@@ -1,64 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package lector;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
+import java.io.FilenameFilter;
+import misExcepciones.DirectorioException;
+
 
 /**
- *
+ * Busca la Ruta ingresada
  * @author SAMUEL-PC
+ * @version 1.1
  */
 public class LectorDirectorio {
-    
-    private File archivo = null;
-    private FileReader fr = null;
-    private BufferedReader br = null;
-    private ArrayList<Double> numeros;
-
-    public LectorDirectorio() {
-        numeros = new ArrayList<>();
-    }
-/**
- * 
- * @param ruta
- * @return 
- */
-    public ArrayList<Double> leerArchivo(String ruta) throws FileNotFoundException {
-
-        try {
-            archivo = new File(ruta);
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
-
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                numeros.add(Double.parseDouble(linea));
+    /**
+     * Abre la ruta que se ingresa para listar 
+     * sus archivos por su extension
+     * @param ruta 
+     * @param extension 
+     * @return Arreglo de nombres de archivos
+     *         con la extensión ingresada
+     * @throws DirectorioException Si la ruta ingresada no existe
+     *         o si no hay archivos con la extension indicada
+     */
+    public String[] listarArchivos(String ruta,String extension)
+                                                    throws DirectorioException{
+        
+        String[] contenido;
+        
+        FilenameFilter filter = (File file, String name) -> {
+            if (name.endsWith(extension)) {
+                return true;
+            } else {
+                return false;
             }
-            return numeros;
-            
-        } catch (FileNotFoundException fe) {
-            throw new FileNotFoundException("Archivo No encontrado");
-        }catch(NumberFormatException nfe){
-            throw new NumberFormatException("No puede contener texto, solo números");
+        };
+        
+        File directorio = new File(ruta);
+        if(!directorio.isDirectory()){
+            throw new DirectorioException("No existe la Ruta");
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+        contenido = directorio.list(filter);
+        if (contenido.length == 0) {
+            throw new DirectorioException("Ruta sin Arhivos ." + extension);
         }
-        return null;
+        return contenido;
+        
     }
 }

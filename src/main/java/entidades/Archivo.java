@@ -10,19 +10,18 @@ import lector.LectorArchivo;
 
 /**
  *
- * @author SAMUEL-PC
+ * @author SAMUEL MARIN
  * @version 1.0
  */
 public class Archivo {
     
     private String nombreArchivo;
     private int cantidadDeRepeticiones;
-    private LectorArchivo lectorArchivo;
+    
 
     public Archivo(String nombreArchivo) {
         this.nombreArchivo = nombreArchivo;
         cantidadDeRepeticiones = 0;
-        lectorArchivo = new LectorArchivo();
     }
     /**
      * Busca en el contenido del archivo la 
@@ -32,8 +31,17 @@ public class Archivo {
      * @param extension extension del archivo (.txt)
      * @throws FileNotFoundException 
      */
-    public void contarPalabra(String ruta,String palabra,String extension) throws FileNotFoundException{
-        String contenido = getContenido(ruta,nombreArchivo,extension);
+    public void contarPalabra(String ruta,String palabraCoincidir) 
+                                    throws FileNotFoundException{
+        String contenido = getContenido(ruta,nombreArchivo);
+        
+        String[] contenidoPartido = contenido.split("\\.|\\,|\\;|\\:|\\(|\\)|\\s");
+        
+        for(String palabra:contenidoPartido){
+            if(palabra.equals(palabraCoincidir)){
+                this.cantidadDeRepeticiones++;
+            }
+        }
         
     }
     /**
@@ -44,12 +52,19 @@ public class Archivo {
      * @return El contenido de texto del archivo
      * @throws FileNotFoundException 
      */
-    private String getContenido(String ruta,String nombreArchivo,String extension) throws FileNotFoundException{
-        String path = ruta+"/"+nombreArchivo+"/"+extension;
+    private String getContenido(String ruta,String nombreArchivo) 
+                                        throws FileNotFoundException{
+        LectorArchivo lectorArchivo = new LectorArchivo();
+        String path = ruta+"\\"+nombreArchivo;
         return lectorArchivo.leerArchivo(path);
     }
     
     public int getCantidadDeRepeticiones(){
-        return cantidadDeRepeticiones;
+        return this.cantidadDeRepeticiones;
     }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+    
 }

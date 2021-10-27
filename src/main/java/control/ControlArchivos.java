@@ -1,50 +1,86 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package control;
 
 import entidades.Archivo;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import lector.LectorDirectorio;
+import misExcepciones.DirectorioException;
 
 /**
  *
- * @author SAMUEL-PC
+ * @author SAMUEL MARIN
  * @version 1.0
  */
 public class ControlArchivos {
+
     private String ruta;
     private String palabra;
     private String extension;
     private ArrayList<Archivo> archivos;
+    private int total;
+    private int archivosNoEncontrados;
 
-    public ControlArchivos(String ruta, String palabra, 
-                            String extensioni) {
+    public ControlArchivos(String ruta, String palabra) {
         this.ruta = ruta;
         this.palabra = palabra;
-        this.extension = extension;
+        this.extension = "txt";
         this.archivos = new ArrayList<>();
+        this.archivosNoEncontrados = 0;
+        this.total = 0;
     }
+
     /**
      * 
-     * @return 
+     * @return
+     * @throws DirectorioException 
      */
-    public boolean buscarNombreArchivo(){
+    public boolean buscarArchivos() throws DirectorioException {
+        
+        String[] nombresDeArchivos;
+        
+        LectorDirectorio lectorDirectorio = new LectorDirectorio();
+        nombresDeArchivos = lectorDirectorio.listarArchivos(ruta, extension);
+        
+        for (String nombreArchivo : nombresDeArchivos) {
+            archivos.add(new Archivo(nombreArchivo));
+        }
+        contarPalabraPorArchivo();
         return true;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    private boolean contarPalabraPorArchivo(){
+    private boolean contarPalabraPorArchivo() {
+        for (int i = 0; i < archivos.size(); i++) {
+            try {
+                archivos.get(i).contarPalabra(ruta, palabra);
+            } catch (FileNotFoundException noEncontrado) {
+                this.archivosNoEncontrados++;
+            }
+        }
         return true;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public ArrayList<String> getCantidadPorArchivo(){
-        return null;
+    public ArrayList<Map<String, Integer>> getCantidadPorArchivo() {
+        ArrayList<Map<String, Integer>> cantidadPorArchivo = new ArrayList<>();
+        
+        for (Archivo archivo : archivos) {
+            Map mapa = new HashMap();
+            mapa.put("nombreArchivo", archivo.getNombreArchivo());
+            mapa.put("cantidadVeces", archivo.getCantidadDeRepeticiones());
+            
+            cantidadPorArchivo.add(mapa);
+        }
+        
+        return cantidadPorArchivo;
     }
 }

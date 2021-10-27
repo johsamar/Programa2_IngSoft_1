@@ -12,11 +12,12 @@ import java.io.FileReader;
 
 /**
  * Busca la ruta de un archivo .txt y lo abre
- * @author SAMUEL-PC
+ *
+ * @author SAMUEL MARIN
  * @version 1.0
  */
 public class LectorArchivo {
-    
+
     private File archivo = null;
     private FileReader fileReader = null;
     private BufferedReader bufferedReader = null;
@@ -25,11 +26,13 @@ public class LectorArchivo {
     public LectorArchivo() {
         texto = "";
     }
-/**
- * Abre la ruta del archivo txt
- * @param ruta Ruta de un archivo con extension .txt
- * @return Contenido del archicho 
- */
+
+    /**
+     * Abre la ruta del archivo txt
+     *
+     * @param ruta Ruta de un archivo con extension .txt
+     * @return Contenido del archicho
+     */
     public String leerArchivo(String ruta) throws FileNotFoundException {
 
         try {
@@ -42,11 +45,10 @@ public class LectorArchivo {
                 texto += linea;
             }
             return texto;
-            
+
         } catch (FileNotFoundException fe) {
             throw new FileNotFoundException("Archivo No encontrado");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
