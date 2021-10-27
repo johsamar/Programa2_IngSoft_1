@@ -9,7 +9,7 @@ import control.ControlArchivos;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import misExcepciones.DirectorioException;
+import misExcepciones.*;
 
 /**
  *
@@ -193,8 +193,10 @@ public class ControlGui extends javax.swing.JFrame {
                 mostrarCoincidenciasPorArchivo();
                 buttonBuscar.setEnabled(false);
                 buttonReiniciar.setEnabled(true);
-            } catch (DirectorioException directorioError) {
-                JOptionPane.showMessageDialog(null, directorioError.getMessage(), "DIRECTORIO", JOptionPane.WARNING_MESSAGE);
+            } catch (DirectorioInexistenteException directorioError) {
+                JOptionPane.showMessageDialog(null, "La ruta ingresada no Existe", "DIRECTORIO", JOptionPane.WARNING_MESSAGE);
+            } catch (DirectorioSinArchicosException vacioError){
+                JOptionPane.showMessageDialog(null, "No existen archvivos compatibles en la ruta", "DIRECTORIO", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_buttonBuscarActionPerformed

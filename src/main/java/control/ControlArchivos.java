@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import lector.LectorDirectorio;
-import misExcepciones.DirectorioException;
+import misExcepciones.DirectorioInexistenteException;
+import misExcepciones.DirectorioSinArchicosException;
 
 /**
  *
@@ -35,9 +36,10 @@ public class ControlArchivos {
     /**
      * 
      * @return
-     * @throws DirectorioException 
+     * @throws DirectorioInexistenteException
+     * @throws DirectorioSinArchicosException 
      */
-    public boolean buscarArchivos() throws DirectorioException {
+    public boolean buscarArchivos() throws DirectorioInexistenteException, DirectorioSinArchicosException {
         
         String[] nombresDeArchivos;
         

@@ -10,10 +10,10 @@ package misExcepciones;
  *
  * @author SAMUEL-PC
  */
-public class DirectorioException extends Exception{
+public class DirectorioInexistenteException extends Exception{
 
-    public DirectorioException(String message) {
-        super(message);
+    public DirectorioInexistenteException() {
+        super();
     }
     
 }

@@ -3,7 +3,7 @@ package lector;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import misExcepciones.DirectorioException;
+import misExcepciones.*;
 
 
 /**
@@ -19,11 +19,11 @@ public class LectorDirectorio {
      * @param extension 
      * @return Arreglo de nombres de archivos
      *         con la extensión ingresada
-     * @throws DirectorioException Si la ruta ingresada no existe
-     *         o si no hay archivos con la extension indicada
+     * @throws DirectorioInexistenteException Si la ruta ingresada no existe
+     * @throws DirectorioSinArchicosException Si no hay archivos con la extension indicada
      */
     public String[] listarArchivos(String ruta,String extension)
-                                                    throws DirectorioException{
+                                                    throws DirectorioInexistenteException, DirectorioSinArchicosException{
         
         String[] contenido;
         
@@ -37,11 +37,11 @@ public class LectorDirectorio {
         
         File directorio = new File(ruta);
         if(!directorio.isDirectory()){
-            throw new DirectorioException("No existe la Ruta");
+            throw new DirectorioInexistenteException();
         }
         contenido = directorio.list(filter);
         if (contenido.length == 0) {
-            throw new DirectorioException("Ruta sin Arhivos ." + extension);
+            throw new DirectorioSinArchicosException();
         }
         return contenido;
         
