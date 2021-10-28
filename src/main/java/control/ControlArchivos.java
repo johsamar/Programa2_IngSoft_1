@@ -35,11 +35,10 @@ public class ControlArchivos {
 
     /**
      * 
-     * @return
      * @throws DirectorioInexistenteException
      * @throws DirectorioSinArchicosException 
      */
-    public boolean buscarArchivos() throws DirectorioInexistenteException, DirectorioSinArchicosException {
+    public void buscarArchivos() throws DirectorioInexistenteException, DirectorioSinArchicosException {
         
         String[] nombresDeArchivos;
         
@@ -50,14 +49,13 @@ public class ControlArchivos {
             archivos.add(new Archivo(nombreArchivo));
         }
         contarPalabraPorArchivo();
-        return true;
     }
 
     /**
      *
-     * @return
+     *
      */
-    private boolean contarPalabraPorArchivo() {
+    private void contarPalabraPorArchivo() {
         for (int i = 0; i < archivos.size(); i++) {
             try {
                 archivos.get(i).contarPalabra(ruta, palabra);
@@ -65,7 +63,6 @@ public class ControlArchivos {
                 this.archivosNoEncontrados++;
             }
         }
-        return true;
     }
 
     /**
